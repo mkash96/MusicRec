@@ -8,7 +8,7 @@ def get_youtube_thumbnail(song_name):
         return cache[song_name]
 
     try:
-        youtube = build('youtube', 'v3', developerKey='AIzaSyDkYfXeLB8CZvXqV-e-Grlkscr5fp2uy0g')
+        youtube = build('youtube', 'v3', developerKey='')
         request = youtube.search().list(
             q=song_name,
             part='snippet',
