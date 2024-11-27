@@ -1,0 +1,10 @@
+MRS_CNN_FINAL/Saved_Model/best_model.keras
+MRS_CNN_FINAL/Dataset/fma_metadata/features.csv
+MRS_CNN_FINAL/Dataset/fma_metadata/raw_tracks.csv
+MRS_CNN_FINAL/Dataset/fma_metadata/tracks.csv
+MRS_CNN_FINAL/Saved_Model/CNN_Model.keras
+MRS_CRNN/Dataset/fma_metadata/features.csv
+MRS_CRNN/Dataset/fma_metadata/raw_tracks.csv
+MRS_CRNN/Dataset/fma_metadata/tracks.csv
+MRS_CNN_FINAL/Saved_Model/CNN_Model.keras
+MRS_CNN_FINAL/Saved_Model/best_model.keras

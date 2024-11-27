@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>musicrec</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Existing styles and scripts -->
+    <!-- Link to the updated styles.css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Link to Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Doto&display=swap&family=Roboto:wght@400;500;700&display=swap">
+   <!-- Include Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"/>
+    <!-- Inline style for background image -->
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='images/background.gif') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>musicrec</h1>
+    </header>
+
+    <main>
+        <section class="search-section">
+            <input type="text" id="searchBar" placeholder="Type a song name..." onkeyup="filterSongs()" title="Start typing to filter the song list" />
+            <select id="songs"></select>
+            <button class="primary-button" onclick="getRecommendations()" title="Get song recommendations based on your selection">
+                <i class="bi bi-music-note"></i> Get Recommendations
+            </button>
+            <button class="secondary-button" onclick="surpriseMe()" title="Get a surprise song recommendation">
+                <i class="bi bi-shuffle"></i> Surprise Me!
+            </button>
+        </section>
+
+        <!-- Selected Song Section -->
+        <section id="selectedSongContainer" class="song-section" style="display: none;">
+            <h2>Selected Song</h2>
+            <div id="selectedVideo"></div>
+            <div id="selectedAudio"></div>
+        </section>
+
+        <!-- Recommendations Section -->
+        <section id="recommendationsContainer" class="song-section" style="display: none;">
+            <h2>Recommendations</h2>
+            <div id="recommendations"></div>
+            <div class="navigation-buttons">
+                <button id="prevRecommendations" class="icon-button" onclick="navigateRecommendations(-1)" disabled>
+                    <i class="bi bi-arrow-left-circle"></i>
+                </button>
+                <button id="nextRecommendations" class="icon-button" onclick="navigateRecommendations(1)" disabled>
+                    <i class="bi bi-arrow-right-circle"></i>
+                </button>
+                <button id="oneMoreTimeButton" class="icon-button" onclick="oneMoreTime()">
+                    <i class="bi bi-disc"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Surprise Song Section -->
+        <section id="surpriseContainer" class="song-section" style="display: none;">
+            <h2>Surprise Song</h2>
+            <div id="surprise"></div>
+            <div class="navigation-buttons">
+                <button id="prevSurprise" class="icon-button" onclick="navigateSurprise(-1)" disabled>
+                    <i class="bi bi-arrow-left-circle"></i>
+                </button>
+                <button id="nextSurprise" class="icon-button" onclick="navigateSurprise(1)" disabled>
+                    <i class="bi bi-arrow-right-circle"></i>
+                </button>
+                <button id="anotherOneButton" class="icon-button" onclick="anotherOne()">
+                    <i class="bi bi-arrow-through-heart"></i>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Link to the updated script.js -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

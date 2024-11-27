@@ -1,0 +1,12 @@
+numpy
+pandas
+Pillow
+librosa
+keras
+matplotlib
+seaborn
+scikit-learn
+tensorflow
+tensorflow-macos 
+tensorflow-metal
+opencv-python

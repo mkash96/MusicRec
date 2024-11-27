@@ -1,0 +1,19 @@
+Weighted F1 Score: 0.7649
+Creating confusion matrix...
+
+Classification Report:
+
+                precision    recall  f1-score   support
+
+      Hip-Hop       0.78      0.86      0.82       535
+International       0.80      0.77      0.79       584
+   Electronic       0.81      0.78      0.80       620
+         Folk       0.79      0.79      0.79       634
+ Experimental       0.76      0.75      0.76       557
+         Rock       0.79      0.81      0.80       583
+          Pop       0.64      0.59      0.61       666
+ Instrumental       0.76      0.79      0.78       625
+
+     accuracy                           0.77      4804
+    macro avg       0.77      0.77      0.77      4804
+ weighted avg       0.76      0.77      0.76      4804
