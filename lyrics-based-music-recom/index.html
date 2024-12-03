@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Song Recommender</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome CDN for icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Global Styles */
+    body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1e242b; /* Lighter background color for better contrast */
+    color: #dfe6e9; /* Light text color */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    }
+
+
+    .container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    }
+
+    h1 {
+    text-align: center;
+    color: #ffffff;
+    font-size: 42px;
+    margin-bottom: 30px;
+    font-weight: 700;
+    }
+
+    /* Song Cards */
+    .songs-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px; /* Increased gap to give more space between cards */
+    justify-content: center;
+    width: 100%;
+    }
+
+    .song {
+    background: #2c2c2e; /* Darker card background to contrast with the page */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.4); /* Stronger shadow for more separation */
+    transition: transform 0.2s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: calc(30% - 20px); /* Slightly larger cards */
+    margin-bottom: 20px;
+    position: relative;
+    }
+
+    .song:hover {
+    transform: translateY(-6px); /* Slightly more pronounced hover effect */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Stronger shadow on hover */
+    }
+
+    .song h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #ffffff; /* Lighter color for better contrast */
+    font-weight: 600;
+    }
+
+    .song p {
+    font-size: 14px;
+    color: #b3b3b3;
+    margin-top: 8px;
+    line-height: 1.5;
+    }
+
+    /* Floating Action Button */
+    .fab {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: #007aff; /* Muted blue for action button */
+    color: #ffffff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    opacity: 0;
+    pointer-events: none;
+    }
+
+    .fab:hover {
+    background: #005bb5; /* Darker blue on hover */
+    transform: translateY(-2px);
+    }
+
+    .song:hover .fab {
+    opacity: 1; /* Visible on hover */
+    pointer-events: auto;
+    }
+
+    /* Modal Styles */
+    .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dim overlay */
+    overflow-y: auto;
+    }
+
+    .modal-content {
+    background: #282828; /* Neutral dark modal background */
+    margin: 50px auto;
+    padding: 0;
+    width: 80%;
+    max-width: 700px;
+    border-radius: 8px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    animation: fadeIn 0.2s ease-out;
+    max-height: 80vh;
+    overflow-y: auto;
+    }
+
+    @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #323232;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid #444;
+    } */
+    .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #323232;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid #444;
+    position: sticky;
+    top: 0; /* Stick the header to the top of the modal */
+    z-index: 2; /* Ensure the header stays on top of the content */
+    background-color: #323232; /* Match the header's background */
+    }
+
+
+    .close {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+    }
+
+    .close:hover {
+    color: #f39c12; /* Accent hover color */
+    }
+
+    .modal-body {
+    padding: 20px;
+    color: #cccccc; /* Softer modal text color */
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+    .song {
+        width: calc(50% - 20px); /* Smaller cards for mobile */
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 10px;
+    }
+    }
+
+    @media (max-width: 480px) {
+    .song {
+        width: 100%; /* Full width on very small screens */
+    }
+    }
+
+  </style>
+  
+</head>
+<body>
+
+  <div class="container">
+    <h1>Song Recommender</h1>
+    <div id="seed-songs" class="songs-container">
+      <!-- Seed songs will be loaded here -->
+    </div>
+  </div>
+
+  <!-- Modal for Recommendations -->
+  <div id="recommendation-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        Recommendations
+        <span class="close" onclick="closeModal()">&times;</span>
+      </div>
+      <div class="modal-body" id="recommendations">
+        <!-- Recommendations will be displayed here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const BASE_URL = "https://7d36-34-80-82-5.ngrok-free.app"; // FastAPI backend URL
+
+    // Fetch seed songs when page loads
+    window.onload = () => {
+      fetchSeedSongs();
+    };
+
+    async function fetchSeedSongs() {
+      try {
+        const response = await fetch(`${BASE_URL}/seed_songs?count=10`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "true" }
+        });
+        if (!response.ok) throw new Error("Failed to fetch seed songs");
+        const seedSongs = await response.json();
+        displaySeedSongs(seedSongs);
+      } catch (error) {
+        console.error("Error fetching seed songs:", error);
+      }
+    }
+
+    function displaySeedSongs(seedSongs) {
+      const seedSongsContainer = document.getElementById("seed-songs");
+      seedSongsContainer.innerHTML = "";
+      seedSongs.forEach(song => {
+        const songElement = document.createElement("div");
+        songElement.className = "song";
+        songElement.innerHTML = `
+          <h3>Song ${song.song_id}</h3>
+          <p>${song.song_lyrics}</p>
+          <div class="fab" onclick="getRecommendations(${song.song_id})">
+            <i class="fas fa-search"></i>
+          </div>
+        `;
+        seedSongsContainer.appendChild(songElement);
+      });
+    }
+
+    async function getRecommendations(songId) {
+      try {
+        const response = await fetch(`${BASE_URL}/recommend`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "true" },
+          body: JSON.stringify({ song_id: songId, novelty: 0.1 })
+        });
+        if (!response.ok) throw new Error("Failed to fetch recommendations");
+        const data = await response.json();
+        const recommendations = data.recommendations || [];
+        displayRecommendations(recommendations);
+      } catch (error) {
+        console.error("Error fetching recommendations:", error);
+      }
+    }
+
+    function displayRecommendations(recommendations) {
+      const recommendationsContainer = document.getElementById("recommendations");
+      recommendationsContainer.innerHTML = `
+        ${recommendations.length === 0 ? 
+          "<p>No recommendations available.</p>" : 
+          recommendations.map(rec => `
+            <div class="recommendation">
+              <h3>Song ${rec.song_id}</h3>
+              <p>${rec.song_lyrics}</p>
+              <p>Score: ${rec.score.toFixed(2)}</p>
+            </div>
+          `).join("")}
+      `;
+      openModal();
+    }
+
+    function openModal() {
+      document.getElementById("recommendation-modal").style.display = "block";
+      document.body.style.overflow = "hidden"; // Disable background scroll
+    }
+
+    function closeModal() {
+      const modal = document.getElementById("recommendation-modal");
+      const modalContent = document.querySelector(".modal-content");
+
+      // Reset the scroll position to top
+      modalContent.scrollTop = 0;
+
+      modal.style.display = "none";
+      document.body.style.overflow = "auto"; // Enable background scroll again
+    }
+
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("recommendation-modal");
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+
+  </script>
+</body>
+</html>
+    
